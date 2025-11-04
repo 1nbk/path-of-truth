@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Events | Path Of Truth Ministries</title>
+
+  <!-- External styles and libraries -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Georgia', serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #f0f0f0;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 5%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid #d4af37;
+    }
+
+    nav.scrolled {
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #d4af37;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo::before {
+      content: "✝";
+      font-size: 1.3em;
+    }
+
+    .links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .link a {
+      color: #f0f0f0;
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 1.1em;
+    }
+
+    .link a:hover {
+      color: #d4af37;
+    }
+
+    .contact-btn a {
+      background: linear-gradient(135deg, #d4af37, #f4e7c3);
+      padding: 0.7rem 1.5rem;
+      border-radius: 25px;
+      color: #1a1a2e;
+      font-weight: bold;
+    }
+
+    .hamburg, .cancel {
+      display: none;
+      font-size: 1.5em;
+      color: #d4af37;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 50vh;
+      background: rgba(26, 26, 46, 0.98);
+      transform: translateY(-500px);
+      transition: transform 0.3s ease;
+      z-index: 999;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 150px 5% 80px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(22, 33, 62, 0.8) 100%);
+    }
+
+    .hero h1 {
+      font-size: 3.5em;
+      color: #d4af37;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero h1::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    }
+
+    .hero p {
+      font-size: 1.3em;
+      color: #f4e7c3;
+      margin-top: 2rem;
+      max-width: 800px;
+      line-height: 1.8;
+    }
+
+    /* Upcoming Events Section */
+    .events-section {
+      padding: 80px 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5em;
+      color: #d4af37;
+      margin-bottom: 3rem;
+    }
+
+    /* Featured Event */
+    .featured-event {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(22, 33, 62, 0.9));
+      border: 3px solid #d4af37;
+      border-radius: 25px;
+      padding: 3rem;
+      margin-bottom: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-badge {
+      position: absolute;
+      top: 30px;
+      right: 30px;
+      background: linear-gradient(135deg, #d4af37, #f4e7c3);
+      color: #1a1a2e;
+      padding: 0.5rem 1.5rem;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+
+    .featured-content h2 {
+      font-size: 2.5em;
+      color: #d4af37;
+      margin-bottom: 1rem;
+    }
+
+    .featured-content p {
+      color: #ddd;
+      line-height: 1.8;
+      font-size: 1.1em;
+      margin-bottom: 2rem;
+    }
+
+    .event-details-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      color: #f4e7c3;
+      font-size: 1.1em;
+    }
+
+    .detail-item i {
+      width: 40px;
+      height: 40px;
+      background: rgba(212, 175, 55, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d4af37;
+      font-size: 1em;
+    }
+
+    .featured-image {
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(22, 33, 62, 0.8));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-image i {
+      font-size: 6em;
+      color: #d4af37;
+    }
+
+    .register-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, #d4af37, #f4e7c3);
+      color: #1a1a2e;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1.1em;
+      transition: all 0.3s;
+    }
+
+    .register-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+    }
+
+    /* Events Grid */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .event-card {
+      background: rgba(26, 26, 46, 0.8);
+      border: 2px solid #d4af37;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .event-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+      border-color: #f4e7c3;
+    }
+
+    .event-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(22, 33, 62, 0.8));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .event-image i {
+      font-size: 4em;
+      color: #d4af37;
+      transition: all 0.3s;
+    }
+
+    .event-card:hover .event-image i {
+      transform: scale(1.2);
+      color: #f4e7c3;
+    }
+
+    .event-date-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(212, 175, 55, 0.95);
+      color: #1a1a2e;
+      padding: 0.8rem;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: bold;
+      min-width: 70px;
+    }
+
+    .event-month {
+      font-size: 0.85em;
+      text-transform: uppercase;
+    }
+
+    .event-day {
+      font-size: 1.8em;
+      line-height: 1;
+    }
+
+    .event-content {
+      padding: 1.8rem;
+    }
+
+    .event-category {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background: rgba(212, 175, 55, 0.2);
+      border-radius: 15px;
+      color: #d4af37;
+      font-size: 0.85em;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .event-title {
+      font-size: 1.5em;
+      color: #f4e7c3;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .event-description {
+      color: #ddd;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      font-size: 0.95em;
+    }
+
+    .event-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #f4e7c3;
+      font-size: 0.9em;
+    }
+
+    .info-item i {
+      color: #d4af37;
+      width: 20px;
+    }
+
+    .event-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 0.8rem;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid #d4af37;
+      border-radius: 10px;
+      color: #d4af37;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: bold;
+    }
+
+    .action-btn:hover {
+      background: rgba(212, 175, 55, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .action-btn.primary {
+      background: linear-gradient(135deg, #d4af37, #f4e7c3);
+      color: #1a1a2e;
+      border: none;
+    }
+
+    /* Calendar Section */
+    .calendar-section {
+      background: rgba(212, 175, 55, 0.05);
+      padding: 60px 5%;
+      margin: 4rem 0;
+    }
+
+    .calendar-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .calendar-item {
+      background: rgba(26, 26, 46, 0.9);
+      border: 2px solid #d4af37;
+      border-radius: 15px;
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+
+    .calendar-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+    }
+
+    .calendar-icon {
+      font-size: 3em;
+      color: #d4af37;
+      margin-bottom: 1rem;
+    }
+
+    .calendar-item h3 {
+      color: #f4e7c3;
+      font-size: 1.3em;
+      margin-bottom: 0.5rem;
+    }
+
+    .calendar-item p {
+      color: #ddd;
+      font-size: 0.95em;
+    }
+
+    /* Scripture Section */
+    .scripture-section {
+      background: rgba(212, 175, 55, 0.1);
+      border: 2px solid #d4af37;
+      border-radius: 20px;
+      padding: 3rem;
+      margin: 4rem auto;
+      max-width: 900px;
+      text-align: center;
+    }
+
+    .scripture-section p {
+      font-size: 1.5em;
+      color: #f4e7c3;
+      font-style: italic;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .scripture-section span {
+      color: #d4af37;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+
+    /* Newsletter Section */
+    .newsletter-section {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(22, 33, 62, 0.9));
+      border: 2px solid #d4af37;
+      border-radius: 25px;
+      padding: 3rem;
+      margin: 4rem auto;
+      max-width: 800px;
+      text-align: center;
+    }
+
+    .newsletter-section h3 {
+      font-size: 2em;
+      color: #d4af37;
+      margin-bottom: 1rem;
+    }
+
+    .newsletter-section p {
+      color: #f4e7c3;
+      font-size: 1.1em;
+      margin-bottom: 2rem;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      background: rgba(26, 26, 46, 0.8);
+      border: 2px solid #d4af37;
+      border-radius: 30px;
+      color: #f0f0f0;
+      font-size: 1em;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .newsletter-input:focus {
+      border-color: #f4e7c3;
+      background: rgba(26, 26, 46, 0.9);
+    }
+
+    .newsletter-input::placeholder {
+      color: #999;
+    }
+
+    .newsletter-btn {
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, #d4af37, #f4e7c3);
+      color: #1a1a2e;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    .newsletter-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    /* Scroll to Top */
+    .scroll-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #d4af37, #f4e7c3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 999;
+      box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    .scroll-to-top.show {
+      opacity: 1;
+    }
+
+    .scroll-to-top i {
+      color: #1a1a2e;
+      font-size: 1.2em;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .links {
+        display: none;
+      }
+
+      .hamburg {
+        display: block;
+      }
+
+      .dropdown .links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        gap: 2rem;
+      }
+
+      .dropdown .cancel {
+        display: block;
+        position: absolute;
+        top: 30px;
+        right: 30px;
+      }
+
+      .hero h1 {
+        font-size: 2.2em;
+      }
+
+      .hero p {
+        font-size: 1.1em;
+      }
+
+      .featured-event {
+        grid-template-columns: 1fr;
+        padding: 2rem;
+      }
+
+      .featured-badge {
+        top: 15px;
+        right: 15px;
+        font-size: 0.8em;
+        padding: 0.4rem 1rem;
+      }
+
+      .events-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .calendar-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+
+      .newsletter-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo" data-aos="zoom-in">Path Of Truth</div>
+      <div class="links">
+        <div class="link"><a href="index.html">Home</a></div>
+        <div class="link"><a href="about.html">About Us</a></div>
+        <div class="link"><a href="ministries.html">Ministries</a></div>
+        <div class="link"><a href="sermons.html">Sermons</a></div>
+        <div class="link"><a href="events.html">Events</a></div>
+        <div class="link contact-btn"><a href="contact.html">Join Us</a></div>
+      </div>
+      <i class="fa-solid fa-bars hamburg" onclick="hamburg()"></i>
+    </div>
+    <div class="dropdown">
+      <div class="links">
+        <div class="link"><a href="index.html">Home</a></div>
+        <div class="link"><a href="about.html">About Us</a></div>
+        <div class="link"><a href="ministries.html">Ministries</a></div>
+        <div class="link"><a href="sermons.html">Sermons</a></div>
+        <div class="link"><a href="events.html">Events</a></div>
+        <div class="link contact-btn"><a href="contact.html">Join Us</a></div>
+        <i class="fa-solid fa-xmark cancel" onclick="cancel()"></i>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div data-aos="fade-up" data-aos-duration="1000">
+      <h1>Upcoming Events</h1>
+      <p>Join us for life-changing gatherings, fellowship, and worship. Experience God's presence as we come together in faith and community.</p>
+    </div>
+  </section>
+
+  <!-- Events Section -->
+  <section class="events-section">
+    
+    <!-- Featured Event -->
+    <div class="featured-event" data-aos="fade-up" data-aos-duration="1000">
+      <span class="featured-badge">Featured Event</span>
+      <div class="featured-content">
+        <h2>Annual Revival Conference 2025</h2>
+        <p>Experience a powerful weekend of worship, teaching, and spiritual renewal. Join believers from across the region for this life-transforming gathering.</p>
+        <div class="event-details-list">
+          <div class="event-info">
+            <div class="info-item">
+              <i class="fas fa-clock"></i>
+              <span>Saturday, 6:00 PM - 9:00 PM</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Main Sanctuary</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-ticket-alt"></i>
+              <span>Free Entry</span>
+            </div>
+          </div>
+          <div class="event-actions">
+            <a href="contact.html" class="action-btn primary">
+              <i class="fas fa-check"></i>
+              Register
+            </a>
+            <a href="#" class="action-btn">
+              <i class="fas fa-share-alt"></i>
+              Share
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Card 6 -->
+      <div class="event-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+        <div class="event-image">
+          <div class="event-date-badge">
+            <div class="event-month">Dec</div>
+            <div class="event-day">25</div>
+          </div>
+          <i class="fas fa-gifts"></i>
+        </div>
+        <div class="event-content">
+          <span class="event-category">Special Service</span>
+          <h3 class="event-title">Christmas Celebration Service</h3>
+          <p class="event-description">Celebrate the birth of our Savior with a special Christmas service filled with worship, carols, and the message of hope.</p>
+          <div class="event-info">
+            <div class="info-item">
+              <i class="fas fa-clock"></i>
+              <span>Wednesday, 9:00 AM & 6:00 PM</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Main Sanctuary</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-users"></i>
+              <span>All Are Welcome</span>
+            </div>
+          </div>
+          <div class="event-actions">
+            <a href="contact.html" class="action-btn primary">
+              <i class="fas fa-check"></i>
+              Register
+            </a>
+            <a href="#" class="action-btn">
+              <i class="fas fa-share-alt"></i>
+              Share
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Regular Schedule Calendar -->
+  <section class="calendar-section">
+    <div class="calendar-container">
+      <h2 class="section-title" data-aos="fade-up">Weekly Schedule</h2>
+      <div class="calendar-grid">
+        
+        <div class="calendar-item" data-aos="fade-up" data-aos-duration="1000">
+          <div class="calendar-icon">
+            <i class="fas fa-sun"></i>
+          </div>
+          <h3>Sunday Service</h3>
+          <p><strong>9:00 AM & 11:00 AM</strong></p>
+          <p>Main worship service with powerful preaching and praise</p>
+        </div>
+
+        <div class="calendar-item" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+          <div class="calendar-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h3>Wednesday Bible Study</h3>
+          <p><strong>6:00 PM - 8:00 PM</strong></p>
+          <p>Deep dive into God's Word with discussion and prayer</p>
+        </div>
+
+        <div class="calendar-item" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+          <div class="calendar-icon">
+            <i class="fas fa-praying-hands"></i>
+          </div>
+          <h3>Friday Prayer Meeting</h3>
+          <p><strong>5:00 AM & 9:00 PM</strong></p>
+          <p>Corporate prayer and intercession for breakthrough</p>
+        </div>
+
+        <div class="calendar-item" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+          <div class="calendar-icon">
+            <i class="fas fa-user-friends"></i>
+          </div>
+          <h3>Saturday Youth Ministry</h3>
+          <p><strong>4:00 PM - 7:00 PM</strong></p>
+          <p>Fun, fellowship, and spiritual growth for young people</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Scripture Section -->
+  <section class="events-section">
+    <div class="scripture-section" data-aos="zoom-in" data-aos-duration="1000">
+      <p>"And let us consider how we may spur one another on toward love and good deeds, not giving up meeting together, as some are in the habit of doing, but encouraging one another."</p>
+      <span>— Hebrews 10:24-25 (NIV)</span>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="events-section">
+    <div class="newsletter-section" data-aos="fade-up" data-aos-duration="1000">
+      <h3>Stay Updated!</h3>
+      <p>Subscribe to our newsletter to receive updates about upcoming events, sermons, and ministry activities.</p>
+      <form class="newsletter-form" onsubmit="return handleSubscribe(event)">
+        <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+        <button type="submit" class="newsletter-btn">
+          <i class="fas fa-envelope"></i> Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Scroll to Top Button -->
+  <div class="scroll-to-top" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    try {
+      AOS.init({ offset: 0 });
+    } catch (error) {
+      console.log('AOS library not loaded, continuing without animations');
+    }
+
+    function hamburg() {
+      const navbar = document.querySelector(".dropdown");
+      navbar.style.transform = "translateY(0px)";
+    }
+
+    function cancel() {
+      const navbar = document.querySelector(".dropdown");
+      navbar.style.transform = "translateY(-500px)";
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('scroll', function() {
+      const nav = document.querySelector('nav');
+      const scrollTop = document.querySelector('.scroll-to-top');
+      
+      if (window.scrollY > 100) {
+        nav.classList.add('scrolled');
+        scrollTop.classList.add('show');
+      } else {
+        nav.classList.remove('scrolled');
+        scrollTop.classList.remove('show');
+      }
+    });
+
+    function handleSubscribe(event) {
+      event.preventDefault();
+      const email = event.target.querySelector('input').value;
+      alert('Thank you for subscribing! You will receive updates at ' + email);
+      event.target.reset();
+      return false;
+    }
+  </script>
+</body>
+</html>="detail-item">
+            <i class="fas fa-calendar"></i>
+            <span>December 15-17, 2025</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-clock"></i>
+            <span>Friday 6:00 PM - Sunday 5:00 PM</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Main Sanctuary & Online</span>
+          </div>
+          <div class="detail-item">
+            <i class="fas fa-user"></i>
+            <span>Guest Speaker: Bishop Michael Owusu</span>
+          </div>
+        </div>
+        <a href="contact.html" class="register-btn">
+          <i class="fas fa-ticket-alt"></i>
+          Register Now
+        </a>
+      </div>
+      <div class="featured-image">
+        <i class="fas fa-church"></i>
+      </div>
+    </div>
+
+    <!-- Upcoming Events Grid -->
+    <h2 class="section-title" data-aos="fade-up">Upcoming Events</h2>
+    <div class="events-grid">
+      
+      <!-- Event Card 1 -->
+      <div class="event-card" data-aos="fade-up" data-aos-duration="1000">
+        <div class="event-image">
+          <div class="event-date-badge">
+            <div class="event-month">Nov</div>
+            <div class="event-day">10</div>
+          </div>
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="event-content">
+          <span class="event-category">Youth Event</span>
+          <h3 class="event-title">Youth Outreach Night</h3>
+          <p class="event-description">An exciting night of games, worship, and powerful teaching designed specifically for young people. Bring your friends!</p>
+          <div class="event-info">
+            <div class="info-item">
+              <i class="fas fa-clock"></i>
+              <span>Saturday, 5:00 PM - 9:00 PM</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Youth Center</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-ticket-alt"></i>
+              <span>Free Entry</span>
+            </div>
+          </div>
+          <div class="event-actions">
+            <a href="contact.html" class="action-btn primary">
+              <i class="fas fa-check"></i>
+              Register
+            </a>
+            <a href="#" class="action-btn">
+              <i class="fas fa-share-alt"></i>
+              Share
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Card 2 -->
+      <div class="event-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+        <div class="event-image">
+          <div class="event-date-badge">
+            <div class="event-month">Nov</div>
+            <div class="event-day">17</div>
+          </div>
+          <i class="fas fa-praying-hands"></i>
+        </div>
+        <div class="event-content">
+          <span class="event-category">Prayer Meeting</span>
+          <h3 class="event-title">Night of Intercession</h3>
+          <p class="event-description">Join us for a powerful night of prayer and worship as we intercede for our families, church, and nation.</p>
+          <div class="event-info">
+            <div class="info-item">
+              <i class="fas fa-clock"></i>
+              <span>Friday, 9:00 PM - 12:00 AM</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Main Sanctuary</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-ticket-alt"></i>
+              <span>Open to All</span>
+            </div>
+          </div>
+          <div class="event-actions">
+            <a href="contact.html" class="action-btn primary">
+              <i class="fas fa-check"></i>
+              Register
+            </a>
+            <a href="#" class="action-btn">
+              <i class="fas fa-share-alt"></i>
+              Share
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Card 3 -->
+      <div class="event-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+        <div class="event-image">
+          <div class="event-date-badge">
+            <div class="event-month">Nov</div>
+            <div class="event-day">24</div>
+          </div>
+          <i class="fas fa-heart"></i>
+        </div>
+        <div class="event-content">
+          <span class="event-category">Community Service</span>
+          <h3 class="event-title">Community Outreach Day</h3>
+          <p class="event-description">Show God's love in action! Join us as we serve our community through food distribution and free medical screening.</p>
+          <div class="event-info">
+            <div class="info-item">
+              <i class="fas fa-clock"></i>
+              <span>Sunday, 8:00 AM - 2:00 PM</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Community Center</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-users"></i>
+              <span>Volunteers Needed</span>
+            </div>
+          </div>
+          <div class="event-actions">
+            <a href="contact.html" class="action-btn primary">
+              <i class="fas fa-hands-helping"></i>
+              Volunteer
+            </a>
+            <a href="#" class="action-btn">
+              <i class="fas fa-share-alt"></i>
+              Share
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Card 4 -->
+      <div class="event-card" data-aos="fade-up" data-aos-duration="1000">
+        <div class="event-image">
+          <div class="event-date-badge">
+            <div class="event-month">Dec</div>
+            <div class="event-day">01</div>
+          </div>
+          <i class="fas fa-book-bible"></i>
+        </div>
+        <div class="event-content">
+          <span class="event-category">Bible Study</span>
+          <h3 class="event-title">Deep Dive: Book of Romans</h3>
+          <p class="event-description">Begin a 6-week intensive study of Paul's epistle to the Romans. Discover deep theological truths for practical living.</p>
+          <div class="event-info">
+            <div class="info-item">
+              <i class="fas fa-clock"></i>
+              <span>Sundays, 3:00 PM - 5:00 PM</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <span>Fellowship Hall & Zoom</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-calendar"></i>
+              <span>6-Week Series</span>
+            </div>
+          </div>
+          <div class="event-actions">
+            <a href="contact.html" class="action-btn primary">
+              <i class="fas fa-check"></i>
+              Register
+            </a>
+            <a href="#" class="action-btn">
+              <i class="fas fa-share-alt"></i>
+              Share
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Event Card 5 -->
+      <div class="event-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+        <div class="event-image">
+          <div class="event-date-badge">
+            <div class="event-month">Dec</div>
+            <div class="event-day">08</div>
+          </div>
+          <i class="fas fa-music"></i>
+        </div>
+        <div class="event-content">
+          <span class="event-category">Worship Night</span>
+          <h3 class="event-title">Praise & Worship Experience</h3>
+          <p class="event-description">An evening dedicated to lifting up the name of Jesus through heartfelt worship, praise, and thanksgiving.</p>
+        </div> 
+
+        

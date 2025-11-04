@@ -3,27 +3,380 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nathaniel_Bubune's Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Path Of Truth Ministries</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f0f0f0;
+            overflow-x: hidden;
+        }
+
+        /* Professional Loading Screen */
+        .professional-splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .splash-content {
+            text-align: center;
+            color: #fff;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .splash-logo {
+            margin-bottom: 30px;
+        }
+
+        .logo-image {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .splash-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .splash-title {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: #d4af37;
+            font-weight: bold;
+        }
+
+        .splash-subtitle {
+            font-size: 1.2em;
+            color: #ecf0f1;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .loading-container {
+            margin-top: 30px;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #d4af37, #f4e7c3);
+            width: 0%;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px #d4af37;
+        }
+
+        .loading-text {
+            color: #ecf0f1;
+            font-size: 0.9em;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 5%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid #d4af37;
+        }
+
+        nav.scrolled {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #d4af37;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo::before {
+            content: "✝";
+            font-size: 1.3em;
+        }
+
+        .links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .link a {
+            color: #f0f0f0;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 1.1em;
+        }
+
+        .link a:hover {
+            color: #d4af37;
+        }
+
+        .contact-btn a {
+            background: linear-gradient(135deg, #d4af37, #f4e7c3);
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+
+        .hamburg, .cancel {
+            display: none;
+            font-size: 1.5em;
+            color: #d4af37;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 50vh;
+            background: rgba(26, 26, 46, 0.98);
+            transform: translateY(-500px);
+            transition: transform 0.3s ease;
+            z-index: 999;
+        }
+
+        /* Main Section */
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 100px 5% 50px;
+        }
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .image {
+            display: flex;
+            justify-content: center;
+        }
+
+        .image img {
+            max-width: 400px;
+            width: 100%;
+            border-radius: 50%;
+            border: 5px solid #d4af37;
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .content h1 {
+            font-size: 2.5em;
+            margin-bottom: 1rem;
+            color: #d4af37;
+            line-height: 1.3;
+        }
+
+        .content h1 span {
+            background: linear-gradient(135deg, #d4af37, #f4e7c3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ministry-focus {
+            font-size: 1.5em;
+            color: #f4e7c3;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        .ministry-focus span {
+            color: #d4af37;
+            font-weight: bold;
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        .content p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin: 1.5rem 0;
+            color: #ddd;
+        }
+
+        .scripture {
+            font-size: 1.2em;
+            color: #d4af37;
+            font-style: italic;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-left: 4px solid #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            color: #d4af37;
+            font-size: 1.3em;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: #d4af37;
+            color: #1a1a2e;
+            transform: translateY(-5px);
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #d4af37, #f4e7c3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 999;
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .scroll-to-top.show {
+            opacity: 1;
+        }
+
+        .scroll-to-top i {
+            color: #1a1a2e;
+            font-size: 1.2em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .links {
+                display: none;
+            }
+
+            .hamburg {
+                display: block;
+            }
+
+            .dropdown .links {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                gap: 2rem;
+            }
+
+            .dropdown .cancel {
+                display: block;
+                position: absolute;
+                top: 30px;
+                right: 30px;
+            }
+
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .content h1 {
+                font-size: 1.8em;
+            }
+
+            .splash-title {
+                font-size: 1.8em;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Professional Loading Screen -->
     <div id="loadingScreen" class="professional-splash">
         <div class="splash-content">
             <div class="splash-logo">
-                <div class="logo-circle">
-                    <img src="myself.jpeg" alt="Nathaniel Bubune" class="splash-image">
+                <div class="logo-image">
+                    <img src="LOGO.jpg" alt="Path Of Truth Ministries" class="splash-image">
                 </div>
             </div>
-            <h1 class="splash-title">Nathaniel Bubune</h1>
-            <p class="splash-subtitle">Computer Science Student & Developer</p>
+            <h1 class="splash-title">Path Of Truth Ministries</h1>
+            <p class="splash-subtitle">Walking in Faith, Growing in Grace</p>
             <div class="loading-container">
                 <div class="loading-bar">
                     <div id="loadingBar" class="loading-progress"></div>
                 </div>
-                <p class="loading-text">Loading Portfolio...</p>
+                <p class="loading-text">Preparing your spiritual journey...</p>
             </div>
         </div>
     </div>
@@ -34,26 +387,26 @@
     <nav>
         <div class="nav-container">
             <div class="logo" data-aos="zoom-in" data-aos-duration="1000">
-                <span>Nathaniel Bubune G</span>
+                <span>Path Of Truth</span>
             </div>
             <div class="links">
                 <div class="link" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100"><a href="index.html">Home</a></div>
-                <div class="link" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200"><a href="about.html">About</a></div>
-                <div class="link" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300"><a href="skills.html">Skills</a></div>
-                <div class="link" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400"><a href="services.html">Services</a></div>
-                <div class="link" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500"><a href="blogs.html">Blogs</a></div>
-                <div class="link contact-btn" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600"><a href="contact.html">Contact Us</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200"><a href="about.html">About Us</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300"><a href="ministries.html">Ministries</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400"><a href="sermons.html">Sermons</a></div>
+                <div class="link" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="500"><a href="events.html">Events</a></div>
+                <div class="link contact-btn" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="600"><a href="contact.html">Join Us</a></div>
             </div>
             <i class="fa-solid fa-bars hamburg" onclick="hamburg()"></i>
         </div>
         <div class="dropdown">
             <div class="links">
                 <div class="link"><a href="index.html">Home</a></div>
-                <div class="link"><a href="about.html">About</a></div>
-                <div class="link"><a href="skills.html">Skills</a></div>
-                <div class="link"><a href="services.html">Services</a></div>
-                <div class="link"><a href="blogs.html">Blogs</a></div>
-                <div class="link contact-btn"><a href="contact.html">Contact Us</a></div>
+                <div class="link"><a href="about.html">About Us</a></div>
+                <div class="link"><a href="ministries.html">Ministries</a></div>
+                <div class="link"><a href="sermons.html">Sermons</a></div>
+                <div class="link"><a href="events.html">Events</a></div>
+                <div class="link contact-btn"><a href="contact.html">Join Us</a></div>
                 <i class="fa-solid fa-xmark cancel" onclick="cancel()"></i>
             </div>
         </div>
@@ -62,18 +415,27 @@
     <section>
         <div class="main-container">
             <div class="image" data-aos="zoom-in-right" data-aos-duration="2500">
-                     <img src="nathjbsk (Copy).jpg" > 
+                <img src="LOGO.jpg" alt="Path Of Truth Ministries Logo"> 
             </div>
             <div class="content">
-                <h1 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="800">Hello I'm <span>Nathaniel Bubune G</span></h1>
-                <div class="typewriter" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="900">I'm a <span></span></div>
+                <h1 data-aos="fade-left" data-aos-duration="1000" data-aos-delay="800">
+                    Welcome to <span>Path Of Truth Ministries</span>
+                </h1>
+                <div class="ministry-focus" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="900">
+                    A community of <span></span>
+                </div>
                 <p data-aos="flip-up" data-aos-duration="1000" data-aos-delay="1000">
-                    As a Computer Science student, I am passionate about solving real-world problems through coding and continuous learning.
+                    A Christ-centered community where believers learn, grow and walk together on the path of Christ, the TRUTH. 
+                    Here, we study the Word of God, share insights, pray and build one another in love. Our goal is to reflect Christ and raise ambassadors who represent Him in every sphere of life.
                 </p>
+                <div class="scripture" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="1100">
+                    "Jesus answered, 'I am the way and the truth and the life. No one comes to the Father except through me.'" - John 14:6
+                </div>
                 <div class="social-links" data-aos="flip-down" data-aos-duration="1000" data-aos-delay="1200">
-                    <a href="https://github.com/1nbk" target="_blank"><i class="fa-brands fa-github"></i></a>
-                    <a href="https://linkedin.com/in/1nbk" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="https://youtube.com/@upheatoadfish" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://facebook.com/pathoftruth" target="_blank" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://instagram.com/pathoftruth" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://youtube.com/@pathoftruth" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="mailto:info@pathoftruth.org" title="Email"><i class="fa-solid fa-envelope"></i></a>
                 </div>
             </div>
         </div>
@@ -86,32 +448,26 @@
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        // Initialize AOS with error handling
         try {
             AOS.init({ offset: 0 });
         } catch (error) {
             console.log('AOS library not loaded, continuing without animations');
         }
-    </script>
-    <script>
+
         function hamburg() {
             const navbar = document.querySelector(".dropdown");
             navbar.style.transform = "translateY(0px)";
         }
+
         function cancel() {
             const navbar = document.querySelector(".dropdown");
             navbar.style.transform = "translateY(-500px)";
         }
 
-        // Scroll to Top Function
         function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Navigation Scroll Effect
         window.addEventListener('scroll', function() {
             const nav = document.querySelector('nav');
             const scrollTop = document.querySelector('.scroll-to-top');
@@ -125,15 +481,13 @@
             }
         });
 
-        // Loading Screen
         window.addEventListener('load', function() {
             const loadingScreen = document.getElementById('loadingScreen');
             const loadingBar = document.getElementById('loadingBar');
             
-            // Simulate loading progress over 8 seconds
             let progress = 0;
-            const totalDuration = 8000; // 8 seconds
-            const updateInterval = 50; // Update every 50ms
+            const totalDuration = 6000;
+            const updateInterval = 50;
             const progressIncrement = (100 / (totalDuration / updateInterval)) + Math.random() * 2;
             
             const interval = setInterval(() => {
@@ -144,16 +498,15 @@
                 if (progress >= 100) {
                     clearInterval(interval);
                     setTimeout(() => {
+                        loadingScreen.style.opacity = '0';
                         setTimeout(() => {
                             loadingScreen.style.display = 'none';
-                        }, 500);                        loadingScreen.style.opacity = '0';
-
+                        }, 500);
                     }, 500);
                 }
             }, updateInterval);
         });
 
-        // Fallback: Hide loading screen after 8 seconds
         setTimeout(() => {
             const loadingScreen = document.getElementById('loadingScreen');
             if (loadingScreen && loadingScreen.style.display !== 'none') {
@@ -162,32 +515,30 @@
                     loadingScreen.style.display = 'none';
                 }, 500);
             }
-        }, 8000);
+        }, 6000);
 
-        // Particle Background
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             if (!particlesContainer) return;
             
-            const particleCount = 90;
+            const particleCount = 70;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.style.position = 'absolute';
-                particle.style.width = (1.5 + Math.random() * 3) + 'px';
+                particle.style.width = (2 + Math.random() * 3) + 'px';
                 particle.style.height = particle.style.width;
-                particle.style.background = 'rgba(109, 67, 0, 0.6)';
+                particle.style.background = 'rgba(212, 175, 55, 0.5)';
                 particle.style.borderRadius = '50%';
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.top = Math.random() * 100 + '%';
-                particle.style.animation = `float ${Math.random() * 10 + 9}s infinite linear`;
+                particle.style.animation = `float ${Math.random() * 12 + 10}s infinite linear`;
                 particle.style.animationDelay = Math.random() * 5 + 's';
                 
                 particlesContainer.appendChild(particle);
             }
         }
 
-        // Add floating animation
         const style = document.createElement('style');
         style.textContent = `
             @keyframes float {
@@ -199,13 +550,11 @@
         `;
         document.head.appendChild(style);
 
-        // Initialize particles
         createParticles();
 
-        // Typewriter effect
-        const typewriterSpan = document.querySelector('.typewriter span');
+        const typewriterSpan = document.querySelector('.ministry-focus span');
         if (typewriterSpan) {
-            const words = ['Developer', 'Designer', 'Problem Solver', 'Student'];
+            const words = ['Faith & Fellowship', 'Prayer & Worship', 'Bible Study', 'Discipleship', 'Kingdom Building'];
             let wordIndex = 0;
             let charIndex = 0;
             let isDeleting = false;
@@ -232,7 +581,6 @@
                 setTimeout(typeWriter, speed);
             }
 
-            // Start typewriter effect after loading
             setTimeout(typeWriter, 2000);
         }
     </script>

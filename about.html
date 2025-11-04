@@ -3,64 +3,607 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About | Nathaniel Bubune</title>
+  <title>About Us | Path Of Truth Ministries</title>
 
   <!-- External styles and libraries -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
-  <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Georgia', serif;
+    }
+
+    body {
+      background: #061B45;
+      color: #FFFFFF;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #0D2A63;
+      backdrop-filter: blur(10px);
+      padding: 1rem 5%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid #C8962A;
+    }
+
+    nav.scrolled {
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #C8962A;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo::before {
+      content: "✝";
+      font-size: 1.3em;
+    }
+
+    .links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .link a {
+      color: #FFFFFF;
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 1.1em;
+    }
+
+    .link a:hover {
+      color: #E3B865;
+    }
+
+    .contact-btn a {
+      background: #C8962A;
+      padding: 0.7rem 1.5rem;
+      border-radius: 25px;
+      color: #FFFFFF;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .contact-btn a:hover {
+      background: #A6791F;
+    }
+
+    .hamburg, .cancel {
+      display: none;
+      font-size: 1.5em;
+      color: #C8962A;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 50vh;
+      background: rgba(13, 42, 99, 0.98);
+      transform: translateY(-500px);
+      transition: transform 0.3s ease;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .dropdown a {
+      color: #FFFFFF;
+      text-decoration: none;
+      font-size: 1.5em;
+      transition: color 0.3s;
+    }
+
+    .dropdown a:hover {
+      color: #E3B865;
+    }
+
+    .dropdown .cancel {
+      display: block;
+      position: absolute;
+      top: 30px;
+      right: 30px;
+    }
+
+    /* Theme Toggle Button */
+    .theme-toggle {
+      position: fixed;
+      top: 100px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: #C8962A;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 999;
+      box-shadow: 0 5px 20px rgba(200, 150, 42, 0.4);
+      transition: all 0.3s;
+    }
+
+    .theme-toggle:hover {
+      background: #E3B865;
+      transform: rotate(180deg);
+    }
+
+    .theme-toggle i {
+      color: #FFFFFF;
+      font-size: 1.3em;
+    }
+
+    /* Main Section */
+    .main-container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 5% 50px;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .main-container h1 {
+      font-size: 3em;
+      color: #C8962A;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .main-container h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #C8962A, transparent);
+    }
+
+    .about-text {
+      font-size: 1.2em;
+      line-height: 1.9;
+      margin-bottom: 1.5rem;
+      color: #C8D0E0;
+      max-width: 900px;
+    }
+
+    .about-text strong {
+      color: #E3B865;
+      font-weight: bold;
+    }
+
+    .mission-vision {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+      width: 100%;
+    }
+
+    .mission-card, .vision-card {
+      background: #0D2A63;
+      padding: 2rem;
+      border-radius: 15px;
+      border: 2px solid #C8962A;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .mission-card:hover, .vision-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(200, 150, 42, 0.3);
+    }
+
+    .mission-card h2, .vision-card h2 {
+      color: #C8962A;
+      font-size: 2em;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .mission-card p, .vision-card p {
+      color: #C8D0E0;
+      line-height: 1.8;
+      font-size: 1.1em;
+    }
+
+    .core-values {
+      margin: 3rem 0;
+      width: 100%;
+    }
+
+    .core-values h2 {
+      color: #C8962A;
+      font-size: 2.5em;
+      margin-bottom: 2rem;
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .value-item {
+      background: rgba(200, 150, 42, 0.1);
+      padding: 1.5rem;
+      border-radius: 10px;
+      border-left: 4px solid #C8962A;
+      text-align: left;
+      transition: all 0.3s;
+    }
+
+    .value-item:hover {
+      background: rgba(200, 150, 42, 0.2);
+      transform: translateX(10px);
+    }
+
+    .value-item h3 {
+      color: #E3B865;
+      font-size: 1.5em;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .value-item p {
+      color: #C8D0E0;
+      line-height: 1.6;
+    }
+
+    .scripture-highlight {
+      background: rgba(200, 150, 42, 0.1);
+      border: 2px solid #C8962A;
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 3rem 0;
+      max-width: 800px;
+    }
+
+    .scripture-highlight p {
+      font-size: 1.4em;
+      color: #E3B865;
+      font-style: italic;
+      line-height: 1.8;
+    }
+
+    .scripture-highlight span {
+      display: block;
+      margin-top: 1rem;
+      color: #C8D0E0;
+      font-size: 0.9em;
+    }
+
+    /* Social Links */
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .social-links a {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(200, 150, 42, 0.1);
+      border: 2px solid #C8962A;
+      border-radius: 50%;
+      color: #C8962A;
+      font-size: 1.3em;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .social-links a:hover {
+      background: #C8962A;
+      color: #FFFFFF;
+      transform: translateY(-5px);
+    }
+
+    /* Light Theme */
+    body.light-theme {
+      background: #F7F9FC;
+      color: #101010;
+    }
+
+    body.light-theme nav {
+      background: #FFFFFF;
+    }
+
+    body.light-theme .logo {
+      color: #C8962A;
+    }
+
+    body.light-theme .link a {
+      color: #101010;
+    }
+
+    body.light-theme .link a:hover {
+      color: #C8962A;
+    }
+
+    body.light-theme .contact-btn a {
+      background: #C8962A;
+      color: #FFFFFF;
+    }
+
+    body.light-theme .contact-btn a:hover {
+      background: #A6791F;
+    }
+
+    body.light-theme .main-container h1 {
+      color: #C8962A;
+    }
+
+    body.light-theme .about-text {
+      color: #555A66;
+    }
+
+    body.light-theme .about-text strong {
+      color: #C8962A;
+    }
+
+    body.light-theme .mission-card,
+    body.light-theme .vision-card {
+      background: #FFFFFF;
+      border: 2px solid #C8962A;
+    }
+
+    body.light-theme .mission-card h2,
+    body.light-theme .vision-card h2 {
+      color: #C8962A;
+    }
+
+    body.light-theme .mission-card p,
+    body.light-theme .vision-card p {
+      color: #555A66;
+    }
+
+    body.light-theme .core-values h2 {
+      color: #C8962A;
+    }
+
+    body.light-theme .value-item {
+      background: rgba(200, 150, 42, 0.1);
+    }
+
+    body.light-theme .value-item:hover {
+      background: rgba(200, 150, 42, 0.2);
+    }
+
+    body.light-theme .value-item h3 {
+      color: #A6791F;
+    }
+
+    body.light-theme .value-item p {
+      color: #555A66;
+    }
+
+    body.light-theme .scripture-highlight {
+      background: rgba(200, 150, 42, 0.1);
+    }
+
+    body.light-theme .scripture-highlight p {
+      color: #A6791F;
+    }
+
+    body.light-theme .scripture-highlight span {
+      color: #555A66;
+    }
+
+    body.light-theme .social-links a {
+      background: #FFFFFF;
+      border: 2px solid #C8962A;
+      color: #C8962A;
+    }
+
+    body.light-theme .social-links a:hover {
+      background: #C8962A;
+      color: #FFFFFF;
+    }
+
+    body.light-theme .dropdown {
+      background: rgba(255, 255, 255, 0.98);
+    }
+
+    body.light-theme .dropdown a {
+      color: #101010;
+    }
+
+    body.light-theme .dropdown a:hover {
+      color: #C8962A;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .links {
+        display: none;
+      }
+
+      .hamburg {
+        display: block;
+      }
+
+      .main-container h1 {
+        font-size: 2em;
+      }
+
+      .about-text {
+        font-size: 1.1em;
+      }
+
+      .mission-card h2, .vision-card h2 {
+        font-size: 1.5em;
+      }
+
+      .theme-toggle {
+        top: 80px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+      }
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Theme Toggle Button -->
+  <div class="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+    <i class="fas fa-sun"></i>
+  </div>
 
   <!-- Navigation -->
   <nav>
     <div class="nav-container">
-      <div class="logo" data-aos="zoom-in">Nathaniel_Bubune</div>
+      <div class="logo" data-aos="zoom-in">Path Of Truth</div>
       <div class="links">
         <div class="link"><a href="index.html">Home</a></div>
-        <div class="link"><a href="about.html">About</a></div>
-        <div class="link"><a href="skills.html">Skills</a></div>
-        <div class="link"><a href="services.html">Services</a></div>
-        <div class="link"><a href="blogs.html">Blogs</a></div>
-        <div class="link contact-btn"><a href="contact.html">Contact Us</a></div>
+        <div class="link"><a href="about.html">About Us</a></div>
+        <div class="link"><a href="ministries.html">Ministries</a></div>
+        <div class="link"><a href="sermons.html">Sermons</a></div>
+        <div class="link"><a href="events.html">Events</a></div>
+        <div class="link contact-btn"><a href="contact.html">Join Us</a></div>
       </div>
       <i class="fa-solid fa-bars hamburg" onclick="hamburg()"></i>
     </div>
     <div class="dropdown">
       <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="skills.html">Skills</a>
-      <a href="services.html">Services</a>
-      <a href="blogs.html">Blogs</a>
-      <a href="contact.html">Contact Us</a>
+      <a href="about.html">About Us</a>
+      <a href="ministries.html">Ministries</a>
+      <a href="sermons.html">Sermons</a>
+      <a href="events.html">Events</a>
+      <a href="contact.html">Join Us</a>
       <i class="fa-solid fa-xmark cancel" onclick="cancel()"></i>
     </div>
   </nav>
 
   <!-- About Section -->
-  <section class="main-container" style="flex-direction: column; text-align: center;">
-    <h1 data-aos="fade-down" data-aos-duration="1000">About Me</h1>
+  <section class="main-container">
+    <h1 data-aos="fade-down" data-aos-duration="1000">About Our Ministry</h1>
+    
     <p data-aos="fade-up" data-aos-duration="1000" class="about-text">
-      I'm <strong>Nathaniel Bubune</strong>, a passionate <strong>Computer Science student</strong> with a love for solving real-world problems using technology.
-      My journey in software development is driven by curiosity, creativity, and a hunger to continuously improve.
+      <strong>Path Of Truth Ministries</strong> is a Christ-centered community established to guide believers on their spiritual journey. 
+      We are a fellowship dedicated to studying God's Word, growing in faith, and reflecting the love of Christ in every aspect of life.
     </p>
-    <p data-aos="fade-up" data-aos-duration="1000" class="about-text">
-      I’m a certified <strong>Microsoft Office Specialist (MOS)</strong>, a versatile <strong>Full-Stack Developer</strong>, and a dedicated <strong>Database Administrator</strong>.
-      I write clean, efficient <strong>Object-Oriented Programs</strong> and build scalable backend services, intuitive user interfaces, and responsive applications that users love.
+    
+    <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100" class="about-text">
+      Founded on the unchanging truth of Scripture, we believe that <strong>Jesus Christ is the Way, the Truth, and the Life</strong>. 
+      Our ministry exists to help believers walk faithfully on this path, equipped with biblical knowledge, spiritual maturity, and a heart for service.
     </p>
-    <p data-aos="fade-up" data-aos-duration="1000" class="about-text">
-      On top of that, I’m an almost pro-level <strong>Graphic Designer</strong> and a budding expert in <strong>UI/UX Design</strong>.
-      I take pride in transforming complex ideas into elegant digital solutions.
+    
+    <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200" class="about-text">
+      We are more than a church; we are a family united by faith, strengthened by prayer, and committed to raising ambassadors for Christ 
+      who will impact their communities, workplaces, and nations with the Gospel.
     </p>
-    <p data-aos="fade-up" data-aos-duration="1000" class="about-text">
-      When I'm not coding, you’ll find me learning new skills, refining my craft, or creating content to share what I’ve learned with the world.
-      I thrive in collaborative environments where ideas turn into impactful solutions.
-    </p>
+
+    <!-- Mission & Vision Cards -->
+    <div class="mission-vision">
+      <div class="mission-card" data-aos="flip-left" data-aos-duration="1000">
+        <h2><i class="fas fa-bullseye"></i> Our Mission</h2>
+        <p>
+          To build a community of believers who are rooted in God's Word, equipped for ministry, and passionate about living out the Great Commission. 
+          We exist to make disciples who make disciples.
+        </p>
+      </div>
+
+      <div class="vision-card" data-aos="flip-right" data-aos-duration="1000">
+        <h2><i class="fas fa-eye"></i> Our Vision</h2>
+        <p>
+          To see a generation of Spirit-filled believers who walk in truth, demonstrate Christ's love, and transform their world through the power of the Gospel.
+        </p>
+      </div>
+    </div>
+
+    <!-- Core Values -->
+    <div class="core-values" data-aos="fade-up" data-aos-duration="1000">
+      <h2>Our Core Values</h2>
+      <div class="values-grid">
+        <div class="value-item" data-aos="fade-up" data-aos-delay="100">
+          <h3><i class="fas fa-bible"></i> Biblical Truth</h3>
+          <p>We stand firmly on the authority and sufficiency of Scripture as our foundation for faith and practice.</p>
+        </div>
+
+        <div class="value-item" data-aos="fade-up" data-aos-delay="200">
+          <h3><i class="fas fa-praying-hands"></i> Prayer & Worship</h3>
+          <p>We prioritize intimacy with God through fervent prayer and heartfelt worship in spirit and truth.</p>
+        </div>
+
+        <div class="value-item" data-aos="fade-up" data-aos-delay="300">
+          <h3><i class="fas fa-hands-helping"></i> Community & Fellowship</h3>
+          <p>We believe in authentic relationships where believers encourage, support, and grow together in love.</p>
+        </div>
+
+        <div class="value-item" data-aos="fade-up" data-aos-delay="400">
+          <h3><i class="fas fa-book-open"></i> Discipleship</h3>
+          <p>We are committed to intentional spiritual growth and mentoring believers to maturity in Christ.</p>
+        </div>
+
+        <div class="value-item" data-aos="fade-up" data-aos-delay="500">
+          <h3><i class="fas fa-globe"></i> Kingdom Impact</h3>
+          <p>We equip believers to be ambassadors for Christ, representing Him in every sphere of influence.</p>
+        </div>
+
+        <div class="value-item" data-aos="fade-up" data-aos-delay="600">
+          <h3><i class="fas fa-heart"></i> Love & Grace</h3>
+          <p>We extend God's unconditional love and grace to all, creating a welcoming environment for everyone.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripture Highlight -->
+    <div class="scripture-highlight" data-aos="zoom-in" data-aos-duration="1000">
+      <p>
+        "Jesus answered, 'I am the way and the truth and the life. No one comes to the Father except through me.'"
+      </p>
+      <span>— John 14:6 (NIV)</span>
+    </div>
 
     <!-- Social Links -->
     <div class="social-links" data-aos="zoom-in-up" data-aos-delay="300">
-      <a href="#"><i class="fa-brands fa-github"></i></a>
-      <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+      <a href="https://facebook.com/pathoftruth" target="_blank" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+      <a href="https://instagram.com/pathoftruth" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://youtube.com/@pathoftruth" target="_blank" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      <a href="mailto:info@pathoftruth.org" title="Email"><i class="fa-solid fa-envelope"></i></a>
     </div>
   </section>
 
@@ -68,12 +611,55 @@
   <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
   <script>
     AOS.init({ offset: 0 });
+    
     function hamburg() {
       document.querySelector(".dropdown").style.transform = "translateY(0)";
     }
+    
     function cancel() {
       document.querySelector(".dropdown").style.transform = "translateY(-500px)";
     }
+
+    // Theme Toggle Function
+    function toggleTheme() {
+      const body = document.body;
+      const themeIcon = document.querySelector('.theme-toggle i');
+      
+      body.classList.toggle('light-theme');
+      
+      if (body.classList.contains('light-theme')) {
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+        localStorage.setItem('theme', 'light');
+      } else {
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+
+    // Load saved theme preference
+    window.addEventListener('load', function() {
+      const savedTheme = localStorage.getItem('theme');
+      const themeIcon = document.querySelector('.theme-toggle i');
+      
+      if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        themeIcon.classList.remove('fa-sun');
+        themeIcon.classList.add('fa-moon');
+      }
+    });
+
+    // Navigation Scroll Effect
+    window.addEventListener('scroll', function() {
+      const nav = document.querySelector('nav');
+      
+      if (window.scrollY > 100) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
   </script>
 </body>
 </html>

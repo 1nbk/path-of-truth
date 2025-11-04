@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sermons | Path Of Truth Ministries</title>
+
+  <!-- External styles and libraries -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Georgia', serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #f0f0f0;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 5%;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      border-bottom: 2px solid #d4af37;
+    }
+
+    nav.scrolled {
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .logo {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #d4af37;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo::before {
+      content: "✝";
+      font-size: 1.3em;
+    }
+
+    .links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .link a {
+      color: #f0f0f0;
+      text-decoration: none;
+      transition: color 0.3s;
+      font-size: 1.1em;
+    }
+
+    .link a:hover {
+      color: #d4af37;
+    }
+
+    .contact-btn a {
+      background: linear-gradient(135deg, #d4af37, #f4e7c3);
+      padding: 0.7rem 1.5rem;
+      border-radius: 25px;
+      color: #1a1a2e;
+      font-weight: bold;
+    }
+
+    .hamburg, .cancel {
+      display: none;
+      font-size: 1.5em;
+      color: #d4af37;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 50vh;
+      background: rgba(26, 26, 46, 0.98);
+      transform: translateY(-500px);
+      transition: transform 0.3s ease;
+      z-index: 999;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 150px 5% 80px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(22, 33, 62, 0.8) 100%);
+    }
+
+    .hero h1 {
+      font-size: 3.5em;
+      color: #d4af37;
+      margin-bottom: 1rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero h1::after {
+      content: '';
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    }
+
+    .hero p {
+      font-size: 1.3em;
+      color: #f4e7c3;
+      margin-top: 2rem;
+      max-width: 800px;
+      line-height: 1.8;
+    }
+
+    /* Filter Section */
+    .filter-section {
+      padding: 40px 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+
+    .filter-btn {
+      padding: 0.8rem 1.5rem;
+      background: rgba(212, 175, 55, 0.1);
+      border: 2px solid #d4af37;
+      border-radius: 25px;
+      color: #d4af37;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1em;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: linear-gradient(135deg, #d4af37, #f4e7c3);
+      color: #1a1a2e;
+    }
+
+    /* Sermons Section */
+    .sermons-section {
+      padding: 40px 5% 80px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .sermons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .sermon-card {
+      background: rgba(26, 26, 46, 0.8);
+      border: 2px solid #d4af37;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .sermon-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+      border-color: #f4e7c3;
+    }
+
+    .sermon-thumbnail {
+      width: 100%;
+      height: 220px;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(22, 33, 62, 0.8));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sermon-thumbnail i {
+      font-size: 4em;
+      color: #d4af37;
+      transition: all 0.3s;
+    }
+
+    .sermon-card:hover .sermon-thumbnail i {
+      transform: scale(1.2);
+      color: #f4e7c3;
+    }
+
+    .play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70px;
+      height: 70px;
+      background: rgba(212, 175, 55, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .sermon-card:hover .play-overlay {
+      background: #d4af37;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .play-overlay i {
+      font-size: 2em;
+      color: #1a1a2e;
+      margin-left: 5px;
+    }
+
+    .sermon-content {
+      padding: 1.8rem;
+    }
+
+    .sermon-category {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background: rgba(212, 175, 55, 0.2);
+      border-radius: 15px;
+      color: #d4af37;
+      font-size: 0.85em;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .sermon-title {
+      font-size: 1.5em;
+      color: #f4e7c3;
+      margin-bottom: 0.8rem;
+      line-height: 1.4;
+    }
+
+    .sermon-speaker {
+      color: #d4af37;
+      font-size: 1em;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sermon-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(212, 175, 55, 0.3);
+      color: #ddd;
+      font-size: 0.9em;
+    }
+
+    .sermon-date,
+    .sermon-duration {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sermon-meta i {
+      color: #d4af37;
+    }
+
+    .sermon-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 0.6rem;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid #d4af37;
+      border-radius: 10px;
+      color: #d4af37;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.9em;
+    }
+
+    .action-btn:hover {
+      background: rgba(212, 175, 55, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Featured Sermon */
+    .featured-sermon {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(22, 33, 62, 0.9));
+      border: 3px solid #d4af37;
+      border-radius: 25px;
+      padding: 3rem;
+      margin-bottom: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .featured-content h2 {
+      color: #d4af37;
+      font-size: 2.5em;
+      margin-bottom: 1.5rem;
+    }
+
+    .featured-content h3 {
+      color: #f4e7c3;
+      font-size: 1.8em;
+      margin-bottom: 1rem;
+    }
+
+    .featured-content p {
+      color: #ddd;
+      line-height: 1.8;
+      font-size: 1.1em;
+      margin-bottom: 2rem;
+    }
+
+    .featured-media {
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(22, 33, 62, 0.8));
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .featured-media i {
+      font-size: 5em;
+      color: #d4af37;
+    }
+
+    .watch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, #d4af37, #f4e7c3);
+      color: #1a1a2e;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1.1em;
+      transition: all 0.3s;
+    }
+
+    .watch-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+    }
+
+    /* Series Section */
+    .series-section {
+      padding: 60px 5%;
+      background: rgba(212, 175, 55, 0.05);
+      margin: 4rem 0;
+    }
+
+    .series-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5em;
+      color: #d4af37;
+      margin-bottom: 3rem;
+    }
+
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .series-card {
+      background: rgba(26, 26, 46, 0.9);
+      border: 2px solid #d4af37;
+      border-radius: 15px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .series-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+    }
+
+    .series-icon {
+      font-size: 3em;
+      color: #d4af37;
+      margin-bottom: 1rem;
+    }
+
+    .series-card h3 {
+      color: #f4e7c3;
+      font-size: 1.6em;
+      margin-bottom: 0.8rem;
+    }
+
+    .series-card p {
+      color: #ddd;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .series-count {
+      color: #d4af37;
+      font-size: 0.9em;
+      margin-bottom: 1rem;
+    }
+
+    /* Scripture Quote */
+    .scripture-section {
+      background: rgba(212, 175, 55, 0.1);
+      border: 2px solid #d4af37;
+      border-radius: 20px;
+      padding: 3rem;
+      margin: 4rem auto;
+      max-width: 900px;
+      text-align: center;
+    }
+
+    .scripture-section p {
+      font-size: 1.5em;
+      color: #f4e7c3;
+      font-style: italic;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    .scripture-section span {
+      color: #d4af37;
+      font-size: 1.1em;
+      font-weight: bold;
+    }
+
+    /* Scroll to Top */
+    .scroll-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #d4af37, #f4e7c3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 999;
+      box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    .scroll-to-top.show {
+      opacity: 1;
+    }
+
+    .scroll-to-top i {
+      color: #1a1a2e;
+      font-size: 1.2em;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .links {
+        display: none;
+      }
+
+      .hamburg {
+        display: block;
+      }
+
+      .dropdown .links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        gap: 2rem;
+      }
+
+      .dropdown .cancel {
+        display: block;
+        position: absolute;
+        top: 30px;
+        right: 30px;
+      }
+
+      .hero h1 {
+        font-size: 2.2em;
+      }
+
+      .hero p {
+        font-size: 1.1em;
+      }
+
+      .sermons-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-sermon {
+        grid-template-columns: 1fr;
+        padding: 2rem;
+      }
+
+      .series-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-buttons {
+        gap: 0.8rem;
+      }
+
+      .filter-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-container">
+      <div class="logo" data-aos="zoom-in">Path Of Truth</div>
+      <div class="links">
+        <div class="link"><a href="index.html">Home</a></div>
+        <div class="link"><a href="about.html">About Us</a></div>
+        <div class="link"><a href="ministries.html">Ministries</a></div>
+        <div class="link"><a href="sermons.html">Sermons</a></div>
+        <div class="link"><a href="events.html">Events</a></div>
+        <div class="link contact-btn"><a href="contact.html">Join Us</a></div>
+      </div>
+      <i class="fa-solid fa-bars hamburg" onclick="hamburg()"></i>
+    </div>
+    <div class="dropdown">
+      <div class="links">
+        <div class="link"><a href="index.html">Home</a></div>
+        <div class="link"><a href="about.html">About Us</a></div>
+        <div class="link"><a href="ministries.html">Ministries</a></div>
+        <div class="link"><a href="sermons.html">Sermons</a></div>
+        <div class="link"><a href="events.html">Events</a></div>
+        <div class="link contact-btn"><a href="contact.html">Join Us</a></div>
+        <i class="fa-solid fa-xmark cancel" onclick="cancel()"></i>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div data-aos="fade-up" data-aos-duration="1000">
+      <h1>Sermons & Messages</h1>
+      <p>Experience powerful, biblical teaching that transforms lives. Watch, listen, and grow in your faith journey through the preached Word of God.</p>
+    </div>
+  </section>
+
+  <!-- Featured Sermon -->
+  <section class="sermons-section">
+    <div class="featured-sermon" data-aos="fade-up" data-aos-duration="1000">
+      <div class="featured-content">
+        <h2>Latest Message</h2>
+        <h3>Walking in Divine Purpose</h3>
+        <p>Discover God's unique calling for your life and learn to walk confidently in the purpose He has destined for you. This powerful message will inspire you to step into your God-given potential.</p>
+        <div class="sermon-speaker" style="margin-bottom: 1rem;">
+          <i class="fas fa-user"></i>
+          <span>Pastor Emmanuel Adjei</span>
+        </div>
+        <div style="display: flex; gap: 2rem; margin-bottom: 2rem; color: #ddd;">
+          <div class="sermon-date">
+            <i class="fas fa-calendar"></i>
+            <span>November 3, 2025</span>
+          </div>
+          <div class="sermon-actions">
+            <a href="#" class="action-btn">
+              <i class="fas fa-play"></i>
+              Watch
+            </a>
+            <a href="#" class="action-btn">
+              <i class="fas fa-download"></i>
+              Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Sermon Series -->
+  <section class="series-section">
+    <div class="series-container">
+      <h2 class="section-title" data-aos="fade-up">Sermon Series</h2>
+      <div class="series-grid">
+        
+        <div class="series-card" data-aos="fade-up" data-aos-duration="1000">
+          <div class="series-icon">
+            <i class="fas fa-book-bible"></i>
+          </div>
+          <h3>Kingdom Living</h3>
+          <p>A comprehensive series on what it means to live as citizens of God's Kingdom in today's world.</p>
+          <div class="series-count">8 Messages</div>
+          <a href="#" class="watch-btn" style="font-size: 1em; padding: 0.8rem 1.5rem;">
+            <i class="fas fa-list"></i>
+            View Series
+          </a>
+        </div>
+
+        <div class="series-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+          <div class="series-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <h3>Love Without Limits</h3>
+          <p>Exploring God's unconditional love and how we can extend that love to others in practical ways.</p>
+          <div class="series-count">6 Messages</div>
+          <a href="#" class="watch-btn" style="font-size: 1em; padding: 0.8rem 1.5rem;">
+            <i class="fas fa-list"></i>
+            View Series
+          </a>
+        </div>
+
+        <div class="series-card" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+          <div class="series-icon">
+            <i class="fas fa-mountain"></i>
+          </div>
+          <h3>Overcoming Obstacles</h3>
+          <p>Biblical strategies for overcoming life's challenges and walking in victory through Christ.</p>
+          <div class="series-count">5 Messages</div>
+          <a href="#" class="watch-btn" style="font-size: 1em; padding: 0.8rem 1.5rem;">
+            <i class="fas fa-list"></i>
+            View Series
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Scripture Section -->
+  <section class="sermons-section">
+    <div class="scripture-section" data-aos="zoom-in" data-aos-duration="1000">
+      <p>"For the word of God is alive and active. Sharper than any double-edged sword, it penetrates even to dividing soul and spirit, joints and marrow; it judges the thoughts and attitudes of the heart."</p>
+      <span>— Hebrews 4:12 (NIV)</span>
+    </div>
+  </section>
+
+  <!-- Scroll to Top Button -->
+  <div class="scroll-to-top" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    try {
+      AOS.init({ offset: 0 });
+    } catch (error) {
+      console.log('AOS library not loaded, continuing without animations');
+    }
+
+    function hamburg() {
+      const navbar = document.querySelector(".dropdown");
+      navbar.style.transform = "translateY(0px)";
+    }
+
+    function cancel() {
+      const navbar = document.querySelector(".dropdown");
+      navbar.style.transform = "translateY(-500px)";
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.addEventListener('scroll', function() {
+      const nav = document.querySelector('nav');
+      const scrollTop = document.querySelector('.scroll-to-top');
+      
+      if (window.scrollY > 100) {
+        nav.classList.add('scrolled');
+        scrollTop.classList.add('show');
+      } else {
+        nav.classList.remove('scrolled');
+        scrollTop.classList.remove('show');
+      }
+    });
+
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const sermonCards = document.querySelectorAll('.sermon-card');
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
+        this.classList.add('active');
+
+        const category = this.getAttribute('data-category');
+
+        sermonCards.forEach(card => {
+          if (category === 'all') {
+            card.style.display = 'block';
+            card.style.animation = 'fadeIn 0.5s ease';
+          } else if (card.getAttribute('data-category') === category) {
+            card.style.display = 'block';
+            card.style.animation = 'fadeIn 0.5s ease';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Add fadeIn animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html><div class="sermon-duration">
+            <i class="fas fa-clock"></i>
+            <span>45 mins</span>
+          </div>
+        </div>
+        <a href="#" class="watch-btn">
+          <i class="fas fa-play"></i>
+          Watch Now
+        </a>
+      </div>
+      <div class="featured-media">
+        <i class="fas fa-video"></i>
+        <div class="play-overlay">
+          <i class="fas fa-play"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="filter-section">
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-category="all">All Messages</button>
+        <button class="filter-btn" data-category="sunday">Sunday Service</button>
+        <button class="filter-btn" data-category="bible-study">Bible Study</button>
+        <button class="filter-btn" data-category="youth">Youth Messages</button>
+        <button class="filter-btn" data-category="special">Special Events</button>
+      </div>
+    </div>
+
+    <!-- Sermons Grid -->
+    <div class="sermons-grid">
+      
+      <!-- Sermon Card 1 -->
+      <div class="sermon-card" data-category="sunday" data-aos="fade-up" data-aos-duration="1000">
+        <div class="sermon-thumbnail">
+          <i class="fas fa-bible"></i>
+          <div class="play-overlay">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="sermon-content">
+          <span class="sermon-category">Sunday Service</span>
+          <h3 class="sermon-title">The Power of Faith</h3>
+          <div class="sermon-speaker">
+            <i class="fas fa-user"></i>
+            <span>Pastor Emmanuel Adjei</span>
+          </div>
+          <p style="color: #ddd; margin-bottom: 1rem;">Discover how faith can move mountains and transform your circumstances through unwavering trust in God.</p>
+          <div class="sermon-meta">
+            <div class="sermon-date">
+              <i class="fas fa-calendar"></i>
+              <span>Oct 27, 2025</span>
+            </div>
+            <div class="sermon-duration">
+              <i class="fas fa-clock"></i>
+              <span>52 mins</span>
+            </div>
+          </div>
+          <div class="sermon-actions">
+            <a href="#" class="action-btn">
+              <i class="fas fa-play"></i>
+              Watch
+            </a>
+            <a href="#" class="action-btn">
+              <i class="fas fa-download"></i>
+              Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sermon Card 2 -->
+      <div class="sermon-card" data-category="bible-study" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+        <div class="sermon-thumbnail">
+          <i class="fas fa-book-open"></i>
+          <div class="play-overlay">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="sermon-content">
+          <span class="sermon-category">Bible Study</span>
+          <h3 class="sermon-title">Understanding Grace</h3>
+          <div class="sermon-speaker">
+            <i class="fas fa-user"></i>
+            <span>Minister Sarah Mensah</span>
+          </div>
+          <p style="color: #ddd; margin-bottom: 1rem;">A deep dive into God's amazing grace and what it means for believers living in the New Covenant.</p>
+          <div class="sermon-meta">
+            <div class="sermon-date">
+              <i class="fas fa-calendar"></i>
+              <span>Oct 23, 2025</span>
+            </div>
+            <div class="sermon-duration">
+              <i class="fas fa-clock"></i>
+              <span>38 mins</span>
+            </div>
+          </div>
+          <div class="sermon-actions">
+            <a href="#" class="action-btn">
+              <i class="fas fa-play"></i>
+              Watch
+            </a>
+            <a href="#" class="action-btn">
+              <i class="fas fa-download"></i>
+              Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sermon Card 3 -->
+      <div class="sermon-card" data-category="youth" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+        <div class="sermon-thumbnail">
+          <i class="fas fa-users"></i>
+          <div class="play-overlay">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="sermon-content">
+          <span class="sermon-category">Youth Message</span>
+          <h3 class="sermon-title">Living Bold for Christ</h3>
+          <div class="sermon-speaker">
+            <i class="fas fa-user"></i>
+            <span>Youth Pastor David Osei</span>
+          </div>
+          <p style="color: #ddd; margin-bottom: 1rem;">How to stand firm in your faith and represent Christ boldly in school, work, and everyday life.</p>
+          <div class="sermon-meta">
+            <div class="sermon-date">
+              <i class="fas fa-calendar"></i>
+              <span>Oct 19, 2025</span>
+            </div>
+            <div class="sermon-duration">
+              <i class="fas fa-clock"></i>
+              <span>42 mins</span>
+            </div>
+          </div>
+          <div class="sermon-actions">
+            <a href="#" class="action-btn">
+              <i class="fas fa-play"></i>
+              Watch
+            </a>
+            <a href="#" class="action-btn">
+              <i class="fas fa-download"></i>
+              Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sermon Card 4 -->
+      <div class="sermon-card" data-category="sunday" data-aos="fade-up" data-aos-duration="1000">
+        <div class="sermon-thumbnail">
+          <i class="fas fa-praying-hands"></i>
+          <div class="play-overlay">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="sermon-content">
+          <span class="sermon-category">Sunday Service</span>
+          <h3 class="sermon-title">The Prayer Warrior</h3>
+          <div class="sermon-speaker">
+            <i class="fas fa-user"></i>
+            <span>Pastor Emmanuel Adjei</span>
+          </div>
+          <p style="color: #ddd; margin-bottom: 1rem;">Learn the secrets of effective prayer and how to develop a powerful prayer life that gets results.</p>
+          <div class="sermon-meta">
+            <div class="sermon-date">
+              <i class="fas fa-calendar"></i>
+              <span>Oct 13, 2025</span>
+            </div>
+            <div class="sermon-duration">
+              <i class="fas fa-clock"></i>
+              <span>48 mins</span>
+            </div>
+          </div>
+          <div class="sermon-actions">
+            <a href="#" class="action-btn">
+              <i class="fas fa-play"></i>
+              Watch
+            </a>
+            <a href="#" class="action-btn">
+              <i class="fas fa-download"></i>
+              Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sermon Card 5 -->
+      <div class="sermon-card" data-category="special" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
+        <div class="sermon-thumbnail">
+          <i class="fas fa-star"></i>
+          <div class="play-overlay">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="sermon-content">
+          <span class="sermon-category">Special Event</span>
+          <h3 class="sermon-title">Revival Fire</h3>
+          <div class="sermon-speaker">
+            <i class="fas fa-user"></i>
+            <span>Guest Speaker: Rev. Grace Asante</span>
+          </div>
+          <p style="color: #ddd; margin-bottom: 1rem;">A powerful message from our revival conference about reigniting passion for God and spiritual renewal.</p>
+          <div class="sermon-meta">
+            <div class="sermon-date">
+              <i class="fas fa-calendar"></i>
+              <span>Oct 6, 2025</span>
+            </div>
+            <div class="sermon-duration">
+              <i class="fas fa-clock"></i>
+              <span>55 mins</span>
+            </div>
+          </div>
+          <div class="sermon-actions">
+            <a href="#" class="action-btn">
+              <i class="fas fa-play"></i>
+              Watch
+            </a>
+            <a href="#" class="action-btn">
+              <i class="fas fa-download"></i>
+              Download
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sermon Card 6 -->
+      <div class="sermon-card" data-category="bible-study" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+        <div class="sermon-thumbnail">
+          <i class="fas fa-cross"></i>
+          <div class="play-overlay">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="sermon-content">
+          <span class="sermon-category">Bible Study</span>
+          <h3 class="sermon-title">The Gospel of John</h3>
+          <div class="sermon-speaker">
+            <i class="fas fa-user"></i>
+            <span>Minister Sarah Mensah</span>
+          </div>
+          <p style="color: #ddd; margin-bottom: 1rem;">Continuing our series through the Gospel of John, exploring the life and ministry of Jesus Christ.</p>
+          <div class="sermon-meta">
+            <div class="sermon-date">
+              <i class="fas fa-calendar"></i>
+              <span>Sep 30, 2025</span>
+            </div>
+            <div class="sermon-duration">
+              <i class="fas fa-clock"></i>
+              <span>40 mins</span>
+            </div>
+          </div>
