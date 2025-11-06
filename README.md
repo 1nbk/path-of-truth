@@ -1,4 +1,4 @@
-# Nathaniel Bubune's Portfolio Backend
+# Path Of Truth Backend
 
 A full-stack portfolio website with a Node.js/Express backend and integrated frontend.
 
